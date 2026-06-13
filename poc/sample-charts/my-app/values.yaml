@@ -1,0 +1,9 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  # intentional violation: latest tag is not allowed
+  tag: latest
+
+service:
+  port: 80

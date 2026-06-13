@@ -1,6 +1,6 @@
 # Token-based rate limit for first-agent (us.meta.llama3-3-70b-instruct-v1:0).
-# Budget: 100 total tokens per hour. Each model value gets its own isolated bucket
-# via x-ai-eg-model Distinct selector, so only the Llama model is affected.
+# Budget: 100000 total tokens per hour (raised from 100 to allow violation-fix-agent testing).
+# Each model value gets its own isolated bucket via x-ai-eg-model Distinct selector.
 #
 # Prerequisites:
 #   - Redis running in redis-system (templates/redis.yaml)
@@ -29,7 +29,7 @@ spec:
                 - name: x-ai-eg-model
                   type: Distinct
           limit:
-            requests: 100
+            requests: 100000
             unit: Hour
           cost:
             request:
