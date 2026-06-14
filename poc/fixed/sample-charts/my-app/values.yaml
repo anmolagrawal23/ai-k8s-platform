@@ -1,4 +1,4 @@
-﻿replicaCount: 1
+replicaCount: 1
 
 image:
   repository: nginx
@@ -6,3 +6,14 @@ image:
 
 service:
   port: 80
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
+
+pdb:
+  minAvailable: 1

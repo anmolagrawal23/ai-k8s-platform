@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: sample-app
   labels:
-    chart: {{ .Chart.Name }}
+    app: sample-app
+    env: dev
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 2
   selector:
     matchLabels:
-      chart: {{ .Chart.Name }}
+      app: sample-app
   template:
     metadata:
       labels:
-        chart: {{ .Chart.Name }}
-        app: {{ .Release.Name }}
+        app: sample-app
         env: dev
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        - name: sample-app
+          image: nginx:1.25.3
           ports:
             - containerPort: 80
           resources:
             requests:
-              cpu: "{{ .Values.resources.requests.cpu }}"
-              memory: "{{ .Values.resources.requests.memory }}"
+              cpu: "100m"
+              memory: "128Mi"
             limits:
-              cpu: "{{ .Values.resources.limits.cpu }}"
-              memory: "{{ .Values.resources.limits.memory }}"
+              cpu: "200m"
+              memory: "256Mi"
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
@@ -38,4 +38,4 @@ spec:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app: {{ .Release.Name }}
+              app: sample-app

@@ -7,3 +7,16 @@ image:
 
 service:
   port: 80
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    # intentional violations: both limits exceed 2x the corresponding requests
+    cpu: "500m"    # 5x request (max allowed: 200m)
+    memory: "512Mi" # 4x request (max allowed: 256Mi)
+
+pdb:
+  # intentional violation: minAvailable must be at least 1
+  minAvailable: 0

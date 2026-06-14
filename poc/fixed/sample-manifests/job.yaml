@@ -1,4 +1,4 @@
-﻿apiVersion: batch/v1
+apiVersion: batch/v1
 kind: Job
 metadata:
   name: sample-batch-job
@@ -6,9 +6,9 @@ spec:
   template:
     metadata:
       labels:
-        task: data-processing
         app: sample-batch-job
         env: dev
+        task: data-processing
     spec:
       restartPolicy: Never
       containers:
@@ -20,7 +20,7 @@ spec:
               cpu: "100m"
               memory: "128Mi"
             limits:
-              cpu: "500m"
+              cpu: "200m"
               memory: "256Mi"
           securityContext:
             runAsNonRoot: true
