@@ -1,7 +1,7 @@
 # OPA Policy Violation Fix Agent — Kubernetes Job
 #
 # Build and push to the local registry before applying:
-#   docker build -t localhost:5001/violation-fix-agent:latest poc/
+#   docker build -t localhost:5001/violation-fix-agent:latest app-violation-fix-agent-poc/
 #   docker push localhost:5001/violation-fix-agent:latest
 #
 # Create namespace and apply:
