@@ -9,7 +9,7 @@ This is a Kubernetes AI platform that runs a [kind](https://kind.sigs.k8s.io/) c
 ## Cluster Bootstrap
 
 - Create Kind cluster.
-- Install Envoy Gateway and Envoy AI Gateway (in order).
+- Install Envoy Gateway v1.8.0 and Envoy AI Gateway v0.6.0 (in order).
 - There is no load balancer and we use port-forward to access any kubernetes service.
 
 ## Architecture
@@ -39,9 +39,23 @@ Credentials are stored in a Kubernetes `Secret` (`envoy-ai-gateway-basic-aws-cre
 
 Redis (`templates/redis.yaml`, namespace `redis-system`, port 6379) is required only when the Envoy Gateway rate-limit add-on is enabled via Helm values.
 
+### Kubernetes MCP Server
+
+`kubernetes-mcp-server` (containers/kubernetes-mcp-server) is deployed via Helm in the `kubernetes-mcp-server` namespace. Helm values are at `templates/mcp-server/helm-values.yaml`. The server has cluster-wide `edit` RBAC.
+
+- **In-cluster endpoint**: `http://kubernetes-mcp-server.kubernetes-mcp-server.svc.cluster.local:8080/mcp`
+- **Local access**: `kubectl port-forward -n kubernetes-mcp-server svc/kubernetes-mcp-server 8080:8080`
+- **Health check**: `GET /healthz` → 200 OK
+- **MCP endpoint**: `POST /mcp` (JSON-RPC 2.0, protocol version `2024-11-05`)
+
 ## Goal
 
 - Deploy sample Gateway manifests to create gateway api to connect with AWS Bedrock [achieved].
 - Create a sample agent which connects to AWS bedrock using envoy AI gateway.
 - Create another agent to try failover from AWS Bedrock to Anthropic model directly.
 - Enforce token based rate limiting for this agent.
+
+## Preference
+- Deploy everything inside the Kind kubernetes cluster.
+- Use Python or Go whichever is most suitable for the job for programming.
+- Use langgraph for building agents.
